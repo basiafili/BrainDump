@@ -1,0 +1,6 @@
+{
+  "configurations": [{ "id": "A11B1700-AB11-4000-8000-000000000001", "name": "Service Tests", "options": {} }],
+  "defaultOptions": {},
+  "testTargets": [{ "parallelizable": true, "target": { "containerPath": "container:BrainDump.xcodeproj", "identifier": "19E8FA2E30A4A171004100BB", "name": "BrainDumpTests" } }],
+  "version": 1
+}

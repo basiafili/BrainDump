@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme LastUpgradeVersion="2720" version="1.7">
+ <BuildAction parallelizeBuildables="YES" buildImplicitDependencies="YES">
+  <BuildActionEntries>
+   <BuildActionEntry buildForTesting="YES" buildForRunning="NO" buildForProfiling="NO" buildForArchiving="NO" buildForAnalyzing="YES">
+    <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="000000000000000100000000" BuildableName="BrainDump.app" BlueprintName="BrainDump" ReferencedContainer="container:BrainDump.xcodeproj"/>
+   </BuildActionEntry>
+   <BuildActionEntry buildForTesting="YES" buildForRunning="NO" buildForProfiling="NO" buildForArchiving="NO" buildForAnalyzing="YES">
+    <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="19E8FB1430A52CE1004100BB" BuildableName="BrainDumpUITests.xctest" BlueprintName="BrainDumpUITests" ReferencedContainer="container:BrainDump.xcodeproj"/>
+   </BuildActionEntry>
+  </BuildActionEntries>
+ </BuildAction>
+ <TestAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.IDEFoundation.Launcher.LLDB" shouldUseLaunchSchemeArgsEnv="NO">
+  <TestPlans><TestPlanReference reference="container:BrainDumpUITests.xctestplan" default="YES"/></TestPlans>
+  <MacroExpansion><BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="000000000000000100000000" BuildableName="BrainDump.app" BlueprintName="BrainDump" ReferencedContainer="container:BrainDump.xcodeproj"/></MacroExpansion>
+ </TestAction>
+ <AnalyzeAction buildConfiguration="Debug"/>
+ <ArchiveAction buildConfiguration="Release" revealArchiveInOrganizer="YES"/>
+</Scheme>

@@ -1,0 +1,6 @@
+{
+  "configurations": [{ "id": "A11B1700-AB11-4000-8000-000000000008", "name": "English UI", "options": { "language": "en", "region": "US" } }],
+  "defaultOptions": { "testTimeoutsEnabled": true, "defaultTestExecutionTimeAllowance": 180, "maximumTestExecutionTimeAllowance": 240 },
+  "testTargets": [{ "parallelizable": false, "target": { "containerPath": "container:BrainDump.xcodeproj", "identifier": "19E8FB1430A52CE1004100BB", "name": "BrainDumpUITests" } }],
+  "version": 1
+}

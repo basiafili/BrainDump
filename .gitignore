@@ -1,0 +1,28 @@
+# macOS metadata
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100/
+.Trashes/
+
+# Xcode per-user preferences and UI state
+xcuserdata/
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+
+# Local build output and test results
+/.bin/
+/build/
+/DerivedData/
+*.xcresult/
+*.dSYM/
+*.dSYM.zip
+*.ipa
+*.xcarchive/
+
+# Swift Package Manager generated files (keep Package.resolved tracked)
+.build/
+
+# Keep project files, workspace metadata, shared schemes, and xcconfig files tracked.

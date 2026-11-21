@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BrainDump Help</title>
+<style>
+:root { color-scheme: light dark; font-family: system-ui, -apple-system, sans-serif; font-size: 100%; line-height: 1.55; }
+body { color: CanvasText; background-color: Canvas; max-width: 52rem; margin: auto; padding: 1.5rem; }
+h1, h2 { line-height: 1.2; }
+code, kbd { font-family: ui-monospace, monospace; font-size: 1em; }
+nav a { display: inline-block; margin-right: 1rem; margin-bottom: .5rem; }
+a, a:visited { color: LinkText; text-underline-offset: .15em; }
+</style>
+</head>
+<body>
+<main>
+<h1>BrainDump Help</h1>
+<p>BrainDump captures plain-text Markdown in folders you choose. A project is a registered folder with a display name. Opening a project starts a fresh capture; it does not browse or load older files.</p>
+<nav aria-label="Help topics"><a href="#capture">Capture and save</a><a href="#windows">Projects and windows</a><a href="#files">Files and conflicts</a><a href="#repair">Folder access and repair</a></nav>
+<h2 id="capture">Capture and save</h2>
+<p>Choose New Project, enter a name, and choose an existing folder. BrainDump uses that folder directly. It creates the current UTC month folder without creating an empty capture file.</p>
+<p>Type in the editor and choose Save (<kbd>Command-S</kbd>). Manual Save writes a snapshot while you can keep typing; newer text stays unsaved. New Capture (<kbd>Command-N</kbd>) saves non-empty text, clears the editor, and begins a new undo context.</p>
+<p>Whitespace-only text is empty. Empty Save never creates, erases, or deletes a file, even after you clear a previously saved capture. You can manage or delete files in Finder later.</p>
+<p>Close, project switching, and Quit save non-empty captures before proceeding. Editors are temporarily read-only during these transitions. A failure keeps the affected windows and text open for retry. If several captures are being saved, earlier successful writes stay saved when a later one fails.</p>
+<h2 id="windows">Projects and windows</h2>
+<p>Projects and Open Recent follow the global Always Open in New Window preference in the Projects menu. When it is off, they save and reuse the active editor, or the most recently used editor if a project form or Help is active. With no editor, they create one. The editor's project switcher always reuses that editor.</p>
+<p>New Project and Open Project each remember their own Open in new window checkbox. These choices do not change each other or the global preference. Open Recent lists available projects in recent-use order. Clear Menu clears that history without unregistering projects or forgetting the last active project.</p>
+<p>Closing the final editor leaves BrainDump running. Relaunch opens only one empty editor for the last active project when it is available. Old editor text and windows are not restored.</p>
+<h2 id="files">Files and conflicts</h2>
+<p>The first save uses a Gregorian UTC month folder such as <code>2026-11</code> and an ASCII timestamp filename such as <code>2026-11-11_12-24-14.md</code>. Collisions receive suffixes <code>_01</code>, <code>_02</code>, and so on. The editor title shows the first-save date and time in your local time zone and locale, and keeps that time after updates or conflict copies.</p>
+<p>Later saves update the bound file when its contents match the previous saved version. If its original path is missing because a file was renamed, moved, or deleted outside BrainDump, Save recreates that original path. BrainDump does not search for the renamed file.</p>
+<p>If another app changes the contents at the bound path, BrainDump preserves that file and saves your capture to a suffixed copy. Later saves use the copy.</p>
+<h2 id="repair">Folder access and repair</h2>
+<p>Unavailable projects remain registered in Project Settings and are omitted from project selectors. If the last active project cannot open, Open Project explains the problem and offers Project Settings. BrainDump does not guess a different project.</p>
+<p>To reconnect a folder renamed or moved in Finder, select its original registration in Project Settings, choose Change Folder, select the folder at its new location, and choose OK. The display name does not automatically follow the folder name.</p>
+<p>In Project Settings, valid name and folder changes are applied when you select another project. Invalid drafts stay in the list and block OK until corrected. If you cancel a folder-change decision, you move to the other row while the earlier draft is retained. OK applies all remaining valid drafts. If a later project fails, earlier successful changes remain applied. Cancel discards only changes that have not already been applied.</p>
+<p>Reveal in Finder opens the registered folder, without applying the selected row’s draft. Remove Project is separately confirmed and ignores unapplied name and folder edits. Its non-empty captures save before its editor windows close; a failed save leaves the project registered and the windows open. Removing a project keeps its folders and capture files.</p>
+<p>A folder change updates registration; it does not move existing capture files. Bound captures keep their original file locations. When there are unsaved captures, Keep captures open retains their editors; Save and close captures saves to the old destinations before closing. Cancel preserves the registration and draft. Unregistering a project never deletes its files.</p>
+</main>
+</body>
+</html>

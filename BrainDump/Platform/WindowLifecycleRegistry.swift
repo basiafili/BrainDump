@@ -15,7 +15,7 @@ final class WindowLifecycleRegistry {
     }
 
     func attach(_ window: NSWindow, sessionID: UUID) {
-        WindowAccessibility.configure(window, contentLabel: String(localized: "Capture editor"))
+        WindowAccessibility.configure(window)
         let identifier = "editor.\(sessionID.uuidString)"
         if window.accessibilityIdentifier() != identifier { window.setAccessibilityIdentifier(identifier) }
         window.isRestorable = false

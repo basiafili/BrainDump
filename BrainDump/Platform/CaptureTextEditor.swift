@@ -43,8 +43,6 @@ struct CaptureTextEditor: NSViewRepresentable {
         text.textContainer?.containerSize = NSSize(width: scroll.contentSize.width, height: CGFloat.greatestFiniteMagnitude)
         text.setAccessibilityLabel(String(localized: "Capture text"))
         text.setAccessibilityIdentifier("editor.text")
-        scroll.setAccessibilityLabel(String(localized: "Capture text area"))
-        scroll.setAccessibilityIdentifier("editor.scroll")
         scroll.documentView = text
         return scroll
     }
@@ -113,6 +111,12 @@ struct CaptureTextEditor: NSViewRepresentable {
     }
 
     final class CaptureScrollView: NSScrollView {
+        override func isAccessibilityElement() -> Bool {
+            // The text view is the functional control. Exposing this implementation-detail
+            // container makes VoiceOver users interact with it before reaching the editor.
+            false
+        }
+
         override func tile() {
             super.tile()
             guard let text = documentView as? NSTextView else { return }

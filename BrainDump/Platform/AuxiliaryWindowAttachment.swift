@@ -27,7 +27,7 @@ struct AuxiliaryWindowAttachment: NSViewRepresentable {
         override func viewDidMoveToWindow() { super.viewDidMoveToWindow(); configure() }
         func configure() {
             guard let window else { return }
-            WindowAccessibility.configure(window, contentLabel: window.title)
+            WindowAccessibility.configure(window)
             window.isRestorable = false
             window.tabbingMode = .disallowed
             if adapter == nil {

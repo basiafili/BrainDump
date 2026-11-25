@@ -7,8 +7,8 @@ struct NewProjectView: View {
     @Environment(\.openWindow) private var openWindow
     @State private var choosingFolder = false
     @FocusState private var nameFocused: Bool
-    private enum ErrorTarget: Hashable { case explanation, name, folder, creation }
-    @AccessibilityFocusState(for: .voiceOver) private var focusedError: ErrorTarget?
+    private enum AccessibilityTarget: Hashable { case explanation, nameField, nameError, folderError, creationError }
+    @AccessibilityFocusState(for: .voiceOver) private var accessibilityFocus: AccessibilityTarget?
 
     private var nameError: String? { draft.nameValidationMessage(projects: runtime.projects) }
     private var canCreate: Bool {
@@ -19,24 +19,31 @@ struct NewProjectView: View {
 
     var body: some View {
         Form {
-            if let explanation = draft.explanation { InlineMessage(message: explanation).accessibilityFocused($focusedError, equals: .explanation) }
-            TextField("Project name", text: $draft.name)
-                .accessibilityIdentifier("new.name")
-                .focused($nameFocused)
-                .disabled(runtime.projects == nil)
-            if let nameError { InlineMessage(message: nameError).accessibilityFocused($focusedError, equals: .name) }
+            if let explanation = draft.explanation { InlineMessage(message: explanation).accessibilityFocused($accessibilityFocus, equals: .explanation) }
+            LabeledContent {
+                TextField("", text: $draft.name)
+                    .labelsHidden()
+                    .accessibilityLabel("Project name")
+                    .accessibilityIdentifier("new.name")
+                    .focused($nameFocused)
+                    .accessibilityFocused($accessibilityFocus, equals: .nameField)
+                    .disabled(runtime.projects == nil)
+            } label: {
+                Text("Project name").accessibilityHidden(true)
+            }
+            if let nameError { InlineMessage(message: nameError).accessibilityFocused($accessibilityFocus, equals: .nameError) }
             Button("Choose Folder…", systemImage: "folder") { choosingFolder = true }
                 .accessibilityIdentifier("new.chooseFolder")
                 .disabled(runtime.projects == nil)
             Text(draft.selectedFolder?.path ?? String(localized: "No folder selected."))
                 .textSelection(.enabled)
                 .accessibilityLabel("Project folder: \(draft.selectedFolder?.path ?? String(localized: "No folder selected"))")
-            if let error = draft.folderError { InlineMessage(message: error).accessibilityFocused($focusedError, equals: .folder) }
+            if let error = draft.folderError { InlineMessage(message: error).accessibilityFocused($accessibilityFocus, equals: .folderError) }
             Toggle("Open in new window", isOn: $draft.openInNewWindow)
                 .toggleStyle(.checkbox)
                 .accessibilityIdentifier("new.openInNewWindow")
                 .disabled(runtime.projects == nil)
-            if let error = draft.creationError { InlineMessage(message: error).accessibilityFocused($focusedError, equals: .creation) }
+            if let error = draft.creationError { InlineMessage(message: error).accessibilityFocused($accessibilityFocus, equals: .creationError) }
             if draft.isWorking { ProgressView("Preparing project…") }
             HStack {
                 Spacer()
@@ -51,18 +58,25 @@ struct NewProjectView: View {
             }
         }
         .formStyle(.columns)
-        .defaultFocus($nameFocused, true)
         .padding()
         .frame(minWidth: 480, idealWidth: 550, minHeight: 350)
         .disabled(draft.isWorking || draft.closeRequested)
         .background(AuxiliaryWindowAttachment(isBusy: draft.isWorking, closeRequested: draft.closeRequested, canClose: { !draft.isWorking },
                                               onClose: { runtime.newProjectIsVisible = false }))
-        .onAppear {
+        .task {
             runtime.newProjectIsVisible = true
-            if draft.explanation != nil { focusedError = .explanation }
+            await Task.yield()
+            guard !Task.isCancelled else { return }
+            if draft.explanation == nil {
+                nameFocused = true
+                accessibilityFocus = .nameField
+            } else {
+                nameFocused = false
+                accessibilityFocus = .explanation
+            }
         }
-        .onChange(of: draft.creationError) { if draft.creationError != nil { focusedError = .creation } }
-        .onChange(of: draft.folderError) { if draft.folderError != nil { focusedError = .folder } }
+        .onChange(of: draft.creationError) { if draft.creationError != nil { accessibilityFocus = .creationError } }
+        .onChange(of: draft.folderError) { if draft.folderError != nil { accessibilityFocus = .folderError } }
         .onChange(of: draft.openInNewWindow) { runtime.newProjectWindowState.remember(draft.openInNewWindow) }
         .fileImporter(isPresented: $choosingFolder, allowedContentTypes: [.folder]) { result in
             switch result {
